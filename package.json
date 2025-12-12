@@ -1,0 +1,21 @@
+{
+  "name": "bun-fullstack",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --cwd backend dev & bun run --cwd frontend dev",
+    "dev:backend": "bun run --cwd backend dev",
+    "dev:frontend": "bun run --cwd frontend dev",
+    "build": "bun run build:backend && bun run build:frontend",
+    "build:backend": "bun run --cwd backend build",
+    "build:frontend": "bun run --cwd frontend build",
+    "start": "bun run --cwd backend start",
+    "install:all": "cd backend && bun install && cd ../frontend && bun install",
+    "test:ci": "bash test-ci.sh"
+  },
+  "workspaces": [
+    "backend",
+    "frontend"
+  ]
+}

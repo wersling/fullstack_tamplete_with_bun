@@ -1,0 +1,103 @@
+{
+  "common": {
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "signUp": "Sign Up",
+    "logout": "Logout",
+    "loading": "Loading...",
+    "refresh": "Refresh",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password"
+  },
+  "home": {
+    "title": "Bun Fullstack",
+    "subtitle": "TypeScript + Hono + React + Shadcn",
+    "apiStatus": {
+      "title": "API Server Status",
+      "connecting": "Connecting...",
+      "connected": "OK",
+      "disconnected": "Disconnected - Make sure backend is running on port 3001",
+      "lastChecked": "Last checked"
+    },
+    "authPrompt": {
+      "title": "Sign in to access all features",
+      "description": "User management requires authentication"
+    },
+    "users": {
+      "title": "Users",
+      "description": "Sign in to view users",
+      "descriptionAuth": "Users fetched from the backend API",
+      "noUsers": "No users found.",
+      "pleaseSignIn": "Please sign in to view users"
+    },
+    "addUser": {
+      "title": "Add New User",
+      "description": "Sign in to add users",
+      "descriptionAuth": "Create a new user via POST request",
+      "namePlaceholder": "Enter name...",
+      "emailPlaceholder": "Enter email...",
+      "button": "Add User"
+    },
+    "techStack": {
+      "title": "Tech Stack",
+      "description": "This fullstack project is built with modern technologies",
+      "bun": "Runtime & Package Manager",
+      "hono": "Backend Framework",
+      "react": "Frontend Library",
+      "typescript": "Type Safety",
+      "tailwind": "CSS Framework",
+      "shadcn": "UI Components",
+      "betterAuth": "Authentication",
+      "drizzle": "ORM"
+    },
+    "footer": "Built with 💜 using Bun + Hono + React + Shadcn UI + Better Auth"
+  },
+  "login": {
+    "title": "Welcome Back",
+    "description": "Sign in to your account to continue",
+    "orContinueWith": "or continue with email",
+    "emailLabel": "Email",
+    "emailPlaceholder": "you@example.com",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "••••••••",
+    "forgotPassword": "Forgot password?",
+    "signingIn": "Signing in...",
+    "noAccount": "Don't have an account?"
+  },
+  "register": {
+    "title": "Create Account",
+    "description": "Sign up to get started with your account",
+    "orRegisterWith": "or register with email",
+    "fullNameLabel": "Full Name",
+    "fullNamePlaceholder": "John Doe",
+    "emailLabel": "Email",
+    "emailPlaceholder": "you@example.com",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "••••••••",
+    "passwordHint": "Must be at least 8 characters",
+    "confirmPasswordLabel": "Confirm Password",
+    "confirmPasswordPlaceholder": "••••••••",
+    "creatingAccount": "Creating account...",
+    "createAccount": "Create Account",
+    "hasAccount": "Already have an account?",
+    "errors": {
+      "passwordMismatch": "Passwords do not match",
+      "passwordTooShort": "Password must be at least 8 characters"
+    }
+  },
+  "errors": {
+    "unexpected": "An unexpected error occurred",
+    "loginFailed": "Login failed",
+    "googleLoginFailed": "Google login failed",
+    "githubLoginFailed": "GitHub login failed",
+    "registrationFailed": "Registration failed"
+  }
+}
+

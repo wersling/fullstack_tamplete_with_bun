@@ -1,0 +1,43 @@
+name: Dependency Check
+
+on:
+  schedule:
+    # 每周一早上 9 点检查依赖更新
+    - cron: '0 1 * * 1'
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  check-dependencies:
+    name: 检查依赖更新
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout代码
+        uses: actions/checkout@v4
+
+      - name: 🏗️ 安装 Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: 🔍 检查后端依赖
+        run: |
+          cd backend
+          echo "=== 后端依赖检查 ==="
+          bun outdated || true
+
+      - name: 🔍 检查前端依赖
+        run: |
+          cd frontend
+          echo "=== 前端依赖检查 ==="
+          bun outdated || true
+
+      - name: 📊 生成报告
+        run: |
+          echo "依赖检查完成，请查看上方输出"
+          echo "如有需要，可以手动运行 'bun update' 更新依赖"
+
+
+
+
+

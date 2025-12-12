@@ -1,0 +1,103 @@
+{
+  "common": {
+    "signIn": "登录",
+    "signOut": "退出登录",
+    "signUp": "注册",
+    "logout": "退出",
+    "loading": "加载中...",
+    "refresh": "刷新",
+    "cancel": "取消",
+    "confirm": "确认",
+    "save": "保存",
+    "delete": "删除",
+    "edit": "编辑",
+    "add": "添加",
+    "name": "姓名",
+    "email": "邮箱",
+    "password": "密码"
+  },
+  "home": {
+    "title": "Bun 全栈项目",
+    "subtitle": "TypeScript + Hono + React + Shadcn",
+    "apiStatus": {
+      "title": "API 服务器状态",
+      "connecting": "连接中...",
+      "connected": "正常",
+      "disconnected": "已断开 - 请确保后端服务运行在 3001 端口",
+      "lastChecked": "上次检查"
+    },
+    "authPrompt": {
+      "title": "登录以访问所有功能",
+      "description": "用户管理需要登录认证"
+    },
+    "users": {
+      "title": "用户列表",
+      "description": "请登录查看用户",
+      "descriptionAuth": "从后端 API 获取的用户数据",
+      "noUsers": "暂无用户",
+      "pleaseSignIn": "请登录后查看用户"
+    },
+    "addUser": {
+      "title": "添加新用户",
+      "description": "请登录后添加用户",
+      "descriptionAuth": "通过 POST 请求创建新用户",
+      "namePlaceholder": "请输入姓名...",
+      "emailPlaceholder": "请输入邮箱...",
+      "button": "添加用户"
+    },
+    "techStack": {
+      "title": "技术栈",
+      "description": "这个全栈项目使用了现代技术构建",
+      "bun": "运行时 & 包管理器",
+      "hono": "后端框架",
+      "react": "前端库",
+      "typescript": "类型安全",
+      "tailwind": "CSS 框架",
+      "shadcn": "UI 组件库",
+      "betterAuth": "身份认证",
+      "drizzle": "ORM"
+    },
+    "footer": "使用 Bun + Hono + React + Shadcn UI + Better Auth 构建 💜"
+  },
+  "login": {
+    "title": "欢迎回来",
+    "description": "登录您的账户以继续",
+    "orContinueWith": "或使用邮箱登录",
+    "emailLabel": "邮箱",
+    "emailPlaceholder": "you@example.com",
+    "passwordLabel": "密码",
+    "passwordPlaceholder": "••••••••",
+    "forgotPassword": "忘记密码？",
+    "signingIn": "登录中...",
+    "noAccount": "还没有账户？"
+  },
+  "register": {
+    "title": "创建账户",
+    "description": "注册以开始使用",
+    "orRegisterWith": "或使用邮箱注册",
+    "fullNameLabel": "姓名",
+    "fullNamePlaceholder": "张三",
+    "emailLabel": "邮箱",
+    "emailPlaceholder": "you@example.com",
+    "passwordLabel": "密码",
+    "passwordPlaceholder": "••••••••",
+    "passwordHint": "至少 8 个字符",
+    "confirmPasswordLabel": "确认密码",
+    "confirmPasswordPlaceholder": "••••••••",
+    "creatingAccount": "创建中...",
+    "createAccount": "创建账户",
+    "hasAccount": "已有账户？",
+    "errors": {
+      "passwordMismatch": "两次输入的密码不一致",
+      "passwordTooShort": "密码至少需要 8 个字符"
+    }
+  },
+  "errors": {
+    "unexpected": "发生了意外错误",
+    "loginFailed": "登录失败",
+    "googleLoginFailed": "Google 登录失败",
+    "githubLoginFailed": "GitHub 登录失败",
+    "registrationFailed": "注册失败"
+  }
+}
+

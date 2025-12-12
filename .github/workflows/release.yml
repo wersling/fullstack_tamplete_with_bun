@@ -1,0 +1,59 @@
+name: Release Build
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  build-and-release:
+    name: 构建生产版本
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout代码
+        uses: actions/checkout@v4
+
+      - name: 🏗️ 安装 Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: 📦 安装所有依赖
+        run: bun run install:all
+
+      - name: 🏗️ 构建生产版本
+        run: bun run build
+        env:
+          NODE_ENV: production
+
+      - name: 📦 打包后端
+        run: |
+          cd backend
+          tar -czf ../backend-${{ github.ref_name }}.tar.gz dist/ package.json bun.lock drizzle/
+
+      - name: 📦 打包前端
+        run: |
+          cd frontend
+          tar -czf ../frontend-${{ github.ref_name }}.tar.gz dist/
+
+      - name: 📤 上传构建产物到 Release
+        uses: softprops/action-gh-release@v1
+        if: github.event_name == 'release'
+        with:
+          files: |
+            backend-${{ github.ref_name }}.tar.gz
+            frontend-${{ github.ref_name }}.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: ✅ 发布成功
+        run: |
+          echo "🎉 生产版本构建成功！"
+          echo "后端包: backend-${{ github.ref_name }}.tar.gz"
+          echo "前端包: frontend-${{ github.ref_name }}.tar.gz"
+
+
+
+
+
