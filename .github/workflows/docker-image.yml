@@ -1,0 +1,98 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: ["main", "master"]
+  pull_request:
+    branches: ["main", "master"]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    env:
+      # GitHub Container Registry
+      GHCR_BACKEND_IMAGE: ghcr.io/${{ github.repository_owner }}/fullstack-backend
+      GHCR_FRONTEND_IMAGE: ghcr.io/${{ github.repository_owner }}/fullstack-frontend
+      # 阿里云容器镜像仓库（请根据你的实际仓库地址修改）
+      ALIYUN_BACKEND_IMAGE: registry.cn-shanghai.aliyuncs.com/${{ secrets.ALIYUN_NAMESPACE }}/fullstack-backend
+      ALIYUN_FRONTEND_IMAGE: registry.cn-shanghai.aliyuncs.com/${{ secrets.ALIYUN_NAMESPACE }}/fullstack-frontend
+      # 版本号：使用 run 编号作为 tag，稳定、唯一
+      VERSION: ${{ github.run_number }}
+
+    steps:
+      - name: 📥 Checkout 代码
+        uses: actions/checkout@v4
+
+      - name: 🔐 登录 GitHub Container Registry
+        if: github.event_name != 'pull_request'
+        run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: 🔐 登录阿里云容器镜像仓库
+        if: github.event_name != 'pull_request'
+        run: echo "${{ secrets.ALIYUN_REGISTRY_PASSWORD }}" | docker login registry.cn-shanghai.aliyuncs.com -u ${{ secrets.ALIYUN_REGISTRY_USERNAME }} --password-stdin
+
+      # ==================== 构建后端镜像 ====================
+      - name: 🏗️ 构建后端 Docker 镜像
+        run: |
+          docker build --platform linux/amd64 \
+            -t $GHCR_BACKEND_IMAGE:$VERSION \
+            -t $GHCR_BACKEND_IMAGE:latest \
+            -f docker/Dockerfile.backend .
+
+      - name: 🏷️ 为后端镜像添加阿里云标签
+        if: github.event_name != 'pull_request'
+        run: |
+          docker tag $GHCR_BACKEND_IMAGE:$VERSION $ALIYUN_BACKEND_IMAGE:$VERSION
+          docker tag $GHCR_BACKEND_IMAGE:latest $ALIYUN_BACKEND_IMAGE:latest
+
+      - name: 📤 推送后端镜像到 GitHub Container Registry
+        if: github.event_name != 'pull_request'
+        run: |
+          docker push $GHCR_BACKEND_IMAGE:$VERSION
+          docker push $GHCR_BACKEND_IMAGE:latest
+
+      - name: 📤 推送后端镜像到阿里云容器镜像仓库
+        if: github.event_name != 'pull_request'
+        run: |
+          docker push $ALIYUN_BACKEND_IMAGE:$VERSION
+          docker push $ALIYUN_BACKEND_IMAGE:latest
+
+      # ==================== 构建前端镜像 ====================
+      - name: 🏗️ 构建前端 Docker 镜像
+        run: |
+          docker build --platform linux/amd64 \
+            -t $GHCR_FRONTEND_IMAGE:$VERSION \
+            -t $GHCR_FRONTEND_IMAGE:latest \
+            -f docker/Dockerfile.frontend .
+
+      - name: 🏷️ 为前端镜像添加阿里云标签
+        if: github.event_name != 'pull_request'
+        run: |
+          docker tag $GHCR_FRONTEND_IMAGE:$VERSION $ALIYUN_FRONTEND_IMAGE:$VERSION
+          docker tag $GHCR_FRONTEND_IMAGE:latest $ALIYUN_FRONTEND_IMAGE:latest
+
+      - name: 📤 推送前端镜像到 GitHub Container Registry
+        if: github.event_name != 'pull_request'
+        run: |
+          docker push $GHCR_FRONTEND_IMAGE:$VERSION
+          docker push $GHCR_FRONTEND_IMAGE:latest
+
+      - name: 📤 推送前端镜像到阿里云容器镜像仓库
+        if: github.event_name != 'pull_request'
+        run: |
+          docker push $ALIYUN_FRONTEND_IMAGE:$VERSION
+          docker push $ALIYUN_FRONTEND_IMAGE:latest
+
+      - name: ✅ 镜像构建和推送完成
+        if: github.event_name != 'pull_request'
+        run: |
+          echo "🎉 Docker 镜像构建和推送成功！"
+          echo ""
+          echo "📦 后端镜像："
+          echo "  - GHCR: $GHCR_BACKEND_IMAGE:$VERSION"
+          echo "  - 阿里云: $ALIYUN_BACKEND_IMAGE:$VERSION"
+          echo ""
+          echo "📦 前端镜像："
+          echo "  - GHCR: $GHCR_FRONTEND_IMAGE:$VERSION"
+          echo "  - 阿里云: $ALIYUN_FRONTEND_IMAGE:$VERSION"
+
