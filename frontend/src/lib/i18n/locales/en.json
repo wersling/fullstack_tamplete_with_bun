@@ -17,45 +17,101 @@
     "password": "Password"
   },
   "home": {
-    "title": "Bun Fullstack",
-    "subtitle": "TypeScript + Hono + React + Shadcn",
+    "title": "Bun Fullstack Project",
+    "subtitle": "A fullstack project template based on Bun, developed with TypeScript, supporting multiple authentication methods and equipped with a complete CI/CD pipeline",
+    "hero": {
+      "getStarted": "Get Started",
+      "viewGithub": "View on GitHub",
+      "viewDocs": "View Docs"
+    },
+    "features": {
+      "title": "✨ Features",
+      "aiFriendly": {
+        "title": "AI Friendly",
+        "desc": "100% TypeScript with complete Claude development rules"
+      },
+      "fastBuild": {
+        "title": "Lightning Fast",
+        "desc": "Bun's native TS, package management, and testing - far exceeds Node.js"
+      },
+      "typeSafe": {
+        "title": "End-to-end Type Safety",
+        "desc": "Backend API changes automatically sync to frontend types"
+      },
+      "multiAuth": {
+        "title": "Multiple Auth Methods",
+        "desc": "Email/password, Google OAuth, GitHub OAuth"
+      },
+      "i18n": {
+        "title": "Internationalization",
+        "desc": "Built-in Chinese and English support"
+      },
+      "cicd": {
+        "title": "Complete CI/CD",
+        "desc": "GitHub Actions builds and publishes Docker images"
+      },
+      "devExp": {
+        "title": "Developer Experience First",
+        "desc": "Hot reload, type hints, zero configuration"
+      }
+    },
+    "techStack": {
+      "title": "🚀 Tech Stack",
+      "backend": "Backend",
+      "frontend": "Frontend",
+      "bun": "High-performance JavaScript runtime",
+      "hono": "Lightweight web framework",
+      "betterAuth": "Modern authentication solution",
+      "drizzle": "TypeScript ORM",
+      "postgres": "Database",
+      "vite": "Build tool",
+      "react": "React 19",
+      "router": "React Router v7",
+      "tailwind": "Tailwind CSS v4",
+      "shadcn": "UI Components",
+      "lucide": "Icon library"
+    },
+    "docs": {
+      "title": "📚 Documentation",
+      "quickStart": {
+        "title": "Quick Start",
+        "desc": "Detailed environment setup guide"
+      },
+      "structure": {
+        "title": "Project Structure",
+        "desc": "Understand code organization"
+      },
+      "commands": {
+        "title": "Commands",
+        "desc": "All command cheat sheet"
+      },
+      "typeSafety": {
+        "title": "Type Safety",
+        "desc": "End-to-end type safety guide"
+      },
+      "api": {
+        "title": "API Reference",
+        "desc": "Complete API documentation"
+      },
+      "errorHandling": {
+        "title": "Error Handling",
+        "desc": "Unified error handling mechanism"
+      },
+      "docker": {
+        "title": "Docker Deployment",
+        "desc": "Docker containerization deployment"
+      },
+      "deployment": {
+        "title": "Deployment Guide",
+        "desc": "Other deployment methods"
+      }
+    },
     "apiStatus": {
       "title": "API Server Status",
       "connecting": "Connecting...",
       "connected": "OK",
       "disconnected": "Disconnected - Make sure backend is running on port 3001",
       "lastChecked": "Last checked"
-    },
-    "authPrompt": {
-      "title": "Sign in to access all features",
-      "description": "User management requires authentication"
-    },
-    "users": {
-      "title": "Users",
-      "description": "Sign in to view users",
-      "descriptionAuth": "Users fetched from the backend API",
-      "noUsers": "No users found.",
-      "pleaseSignIn": "Please sign in to view users"
-    },
-    "addUser": {
-      "title": "Add New User",
-      "description": "Sign in to add users",
-      "descriptionAuth": "Create a new user via POST request",
-      "namePlaceholder": "Enter name...",
-      "emailPlaceholder": "Enter email...",
-      "button": "Add User"
-    },
-    "techStack": {
-      "title": "Tech Stack",
-      "description": "This fullstack project is built with modern technologies",
-      "bun": "Runtime & Package Manager",
-      "hono": "Backend Framework",
-      "react": "Frontend Library",
-      "typescript": "Type Safety",
-      "tailwind": "CSS Framework",
-      "shadcn": "UI Components",
-      "betterAuth": "Authentication",
-      "drizzle": "ORM"
     },
     "footer": "Built with 💜 using Bun + Hono + React + Shadcn UI + Better Auth"
   },

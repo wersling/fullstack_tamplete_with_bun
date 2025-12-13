@@ -17,45 +17,101 @@
     "password": "密码"
   },
   "home": {
-    "title": "Bun 全栈项目",
-    "subtitle": "TypeScript + Hono + React + Shadcn",
+    "title": "Bun Fullstack Project",
+    "subtitle": "基于 Bun 的全栈项目模板，使用 TypeScript 开发，支持多种认证方式，配备完整的 CI/CD 流程",
+    "hero": {
+      "getStarted": "快速开始",
+      "viewGithub": "查看 GitHub",
+      "viewDocs": "查看文档"
+    },
+    "features": {
+      "title": "✨ 核心特性",
+      "aiFriendly": {
+        "title": "AI 友好",
+        "desc": "100% TypeScript，完整的 Claude 开发规则"
+      },
+      "fastBuild": {
+        "title": "极速构建",
+        "desc": "Bun 原生 TS、包管理、测试一体，性能远超 Node.js"
+      },
+      "typeSafe": {
+        "title": "端到端类型安全",
+        "desc": "后端 API 改动，前端类型自动同步"
+      },
+      "multiAuth": {
+        "title": "多种认证方式",
+        "desc": "邮箱密码、Google OAuth、GitHub OAuth"
+      },
+      "i18n": {
+        "title": "国际化支持",
+        "desc": "内置中英文切换"
+      },
+      "cicd": {
+        "title": "完整 CI/CD",
+        "desc": "GitHub Actions 构建并发布 Docker 镜像"
+      },
+      "devExp": {
+        "title": "开发体验优先",
+        "desc": "热重载、类型提示、零配置"
+      }
+    },
+    "techStack": {
+      "title": "🚀 技术栈",
+      "backend": "后端",
+      "frontend": "前端",
+      "bun": "高性能 JavaScript 运行时",
+      "hono": "轻量级 Web 框架",
+      "betterAuth": "现代认证解决方案",
+      "drizzle": "TypeScript ORM",
+      "postgres": "数据库",
+      "vite": "构建工具",
+      "react": "React 19",
+      "router": "React Router v7",
+      "tailwind": "Tailwind CSS v4",
+      "shadcn": "UI 组件",
+      "lucide": "图标库"
+    },
+    "docs": {
+      "title": "📚 文档",
+      "quickStart": {
+        "title": "快速开始",
+        "desc": "详细的环境搭建指南"
+      },
+      "structure": {
+        "title": "项目结构",
+        "desc": "了解代码组织"
+      },
+      "commands": {
+        "title": "常用命令",
+        "desc": "所有命令速查表"
+      },
+      "typeSafety": {
+        "title": "类型安全",
+        "desc": "端到端类型安全指南"
+      },
+      "api": {
+        "title": "API 参考",
+        "desc": "完整的 API 文档"
+      },
+      "errorHandling": {
+        "title": "错误处理",
+        "desc": "统一错误处理机制"
+      },
+      "docker": {
+        "title": "Docker 部署",
+        "desc": "Docker 容器化部署"
+      },
+      "deployment": {
+        "title": "部署指南",
+        "desc": "其他部署方式"
+      }
+    },
     "apiStatus": {
       "title": "API 服务器状态",
       "connecting": "连接中...",
       "connected": "正常",
       "disconnected": "已断开 - 请确保后端服务运行在 3001 端口",
       "lastChecked": "上次检查"
-    },
-    "authPrompt": {
-      "title": "登录以访问所有功能",
-      "description": "用户管理需要登录认证"
-    },
-    "users": {
-      "title": "用户列表",
-      "description": "请登录查看用户",
-      "descriptionAuth": "从后端 API 获取的用户数据",
-      "noUsers": "暂无用户",
-      "pleaseSignIn": "请登录后查看用户"
-    },
-    "addUser": {
-      "title": "添加新用户",
-      "description": "请登录后添加用户",
-      "descriptionAuth": "通过 POST 请求创建新用户",
-      "namePlaceholder": "请输入姓名...",
-      "emailPlaceholder": "请输入邮箱...",
-      "button": "添加用户"
-    },
-    "techStack": {
-      "title": "技术栈",
-      "description": "这个全栈项目使用了现代技术构建",
-      "bun": "运行时 & 包管理器",
-      "hono": "后端框架",
-      "react": "前端库",
-      "typescript": "类型安全",
-      "tailwind": "CSS 框架",
-      "shadcn": "UI 组件库",
-      "betterAuth": "身份认证",
-      "drizzle": "ORM"
     },
     "footer": "使用 Bun + Hono + React + Shadcn UI + Better Auth 构建 💜"
   },
