@@ -1,7 +1,8 @@
 # Bun Fullstack Project
 
-![CI Status](https://github.com/yourusername/yourrepo/workflows/CI%2FCD%20Pipeline/badge.svg)
-![Release](https://img.shields.io/github/v/release/yourusername/yourrepo)
+![CI Status](https://github.com/wersling/fullstack_tamplete_with_bun/workflows/CI%2FCD%20Pipeline/badge.svg)
+![Docker Image](https://github.com/wersling/fullstack_tamplete_with_bun/workflows/Docker%20Image%20CI/badge.svg)
+![Release](https://img.shields.io/github/v/release/wersling/fullstack_tamplete_with_bun)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
 一个基于 Bun 的全栈项目模板，使用 TypeScript 开发，支持多种认证方式，配备完整的 CI/CD 流程。
