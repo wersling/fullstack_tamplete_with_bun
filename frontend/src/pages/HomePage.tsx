@@ -122,7 +122,6 @@ export function HomePage() {
                 {t.common.signIn}
               </Button>
             )}
-            
             {/* GitHub 按钮 */}
             <Button
               variant="outline"
@@ -133,7 +132,7 @@ export function HomePage() {
             >
               <Github className="h-4 w-4" />
             </Button>
-            
+
             {/* 语言切换按钮 */}
             <div className="relative">
               <Button
@@ -210,25 +209,6 @@ export function HomePage() {
             )}
           </CardContent>
         </Card>
-
-        {/* 认证状态提示 */}
-        {!isAuthenticated && (
-          <Card className="mb-8 border-chart-4/20 bg-gradient-to-r from-chart-4/5 to-transparent">
-            <CardContent className="py-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="font-semibold">{t.home.authPrompt.title}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    {t.home.authPrompt.description}
-                  </p>
-                </div>
-                <Button onClick={() => navigate('/login')}>
-                  {t.common.signIn}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        )}
 
         {/* 技术栈展示 */}
         <Card className="mt-8">
