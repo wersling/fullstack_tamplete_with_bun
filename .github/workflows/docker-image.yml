@@ -13,10 +13,13 @@ jobs:
       # GitHub Container Registry
       GHCR_BACKEND_IMAGE: ghcr.io/${{ github.repository_owner }}/fullstack-backend
       GHCR_FRONTEND_IMAGE: ghcr.io/${{ github.repository_owner }}/fullstack-frontend
-      # 阿里云容器镜像仓库（个人版实例地址）
+      # 阿里云容器镜像仓库
+      # ALIYUN_IMAGE_NAME 格式: crpi-xxxxx.cn-shanghai.personal.cr.aliyuncs.com/namespace/repo
+      ALIYUN_BACKEND_IMAGE: ${{ secrets.ALIYUN_IMAGE_NAME }}/fullstack-backend
+      ALIYUN_FRONTEND_IMAGE: ${{ secrets.ALIYUN_IMAGE_NAME }}/fullstack-frontend
+      # 阿里云镜像仓库域名（用于登录）
+      # ALIYUN_REGISTRY 格式: crpi-xxxxx.cn-shanghai.personal.cr.aliyuncs.com
       ALIYUN_REGISTRY: ${{ secrets.ALIYUN_REGISTRY }}
-      ALIYUN_BACKEND_IMAGE: ${{ secrets.ALIYUN_REGISTRY }}/fullstack-backend
-      ALIYUN_FRONTEND_IMAGE: ${{ secrets.ALIYUN_REGISTRY }}/fullstack-frontend
       # 版本号：使用 run 编号作为 tag，稳定、唯一
       VERSION: ${{ github.run_number }}
 
