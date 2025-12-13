@@ -41,3 +41,8 @@ docs/
 .cursor/
 terminals/
 
+# Lock files (让 Docker 自动生成)
+bun.lockb
+**/bun.lockb
+
+

@@ -5,12 +5,11 @@ WORKDIR /app
 
 # 复制依赖文件
 COPY frontend/package.json ./
-# 注意：不复制 bun.lock，让 Docker 构建时自动生成
 
 # 安装依赖
 RUN bun install
 
-# 复制前端源码
+# 复制前端源码（.dockerignore 会自动排除 node_modules、dist 等）
 COPY frontend/ .
 
 # 构建前端（跳过 TypeScript 类型检查，仅打包）

@@ -9,7 +9,6 @@ FROM base AS deps
 
 # 复制依赖文件
 COPY backend/package.json ./
-# 注意：不复制 bun.lock，让 Docker 构建时自动生成
 
 # 安装生产依赖
 RUN bun install --production
@@ -19,12 +18,11 @@ FROM base AS builder
 
 # 复制依赖文件
 COPY backend/package.json ./
-# 注意：不复制 bun.lock，让 Docker 构建时自动生成
 
 # 安装所有依赖（包括开发依赖）
 RUN bun install
 
-# 复制源码
+# 复制源码（.dockerignore 会自动排除 node_modules、dist 等）
 COPY backend/ .
 
 # 构建应用
