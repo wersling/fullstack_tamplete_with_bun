@@ -19,6 +19,10 @@ RUN bun run build:docker
 # ==================== 生产阶段 ====================
 FROM nginx:1.25-alpine AS runner
 
+# 安装 curl 用于更可靠的健康检查
+# 只增加约 2MB，但大幅提升可靠性
+RUN apk add --no-cache curl
+
 # 复制自定义 Nginx 配置
 COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
 
@@ -28,10 +32,15 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 # 暴露端口
 EXPOSE 80
 
-# 健康检查
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD wget --quiet --tries=1 --spider http://127.0.0.1:80/ || exit 1
+# 健康检查配置说明：
+# 1. 使用 127.0.0.1 而非 localhost（绕过 DNS 解析问题）
+# 2. 使用 curl 而非 BusyBox wget（更可靠的实现）
+# 3. -f flag 确保检查 HTTP 状态码（4xx/5xx 视为失败）
+# 4. --max-time 2 设置超时，防止hang
+# 5. -s 静默模式，减少日志噪音
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
+    CMD curl -f -s --max-time 2 http://127.0.0.1/ > /dev/null || exit 1
 
-# 启动 Nginx
+# 启动 Nginx（前台运行）
 CMD ["nginx", "-g", "daemon off;"]
 
