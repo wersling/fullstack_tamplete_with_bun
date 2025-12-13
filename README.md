@@ -7,6 +7,16 @@
 
 一个基于 Bun 的全栈项目模板，使用 TypeScript 开发，支持多种认证方式，配备完整的 CI/CD 流程。
 
+## ✨ 特性
+
+- ✅ **AI友好** - 100% Typescript，CLAUDE[开发规则](./CLAUDE.md)
+- ✅ **极速 Bun 构建体验** - 原生 TS、包管理、测试一体，性能远超 Node.js
+- ✅ **端到端类型安全** - 后端 API 改动，前端类型自动同步
+- ✅ **多种认证方式** - 邮箱密码、Google OAuth、GitHub OAuth
+- ✅ **国际化支持** - 内置中英文切换
+- ✅ **完整 CI/CD** - 使用 GitHub Actions 构建应用程序并发布其 Docker 镜像
+- ✅ **开发体验优先** - 热重载、类型提示、零配置
+
 ## 技术栈
 
 ### 后端
@@ -25,15 +35,6 @@
 - **UI Components**: [Shadcn/ui](https://ui.shadcn.com/)
 - **Icons**: [Lucide React](https://lucide.dev/)
 - **Language**: TypeScript
-
-## ✨ 特性
-
-- ✅ **端到端类型安全** - 后端 API 改动，前端类型自动同步
-- ✅ **多种认证方式** - 邮箱密码、Google OAuth、GitHub OAuth
-- ✅ **国际化支持** - 内置中英文切换
-- ✅ **现代 UI** - 基于 Shadcn/ui 的精美组件
-- ✅ **完整 CI/CD** - GitHub Actions 自动化工作流
-- ✅ **开发体验优先** - 热重载、类型提示、零配置
 
 ## 📚 文档
 
