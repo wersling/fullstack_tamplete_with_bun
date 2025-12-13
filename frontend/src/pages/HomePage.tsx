@@ -74,21 +74,21 @@ export function HomePage() {
 
     // 后端技术栈
     const backendTech = [
-        { icon: Box, name: 'Bun', desc: t.home.techStack.bun },
-        { icon: Server, name: 'Hono', desc: t.home.techStack.hono },
-        { icon: Lock, name: 'Better Auth', desc: t.home.techStack.betterAuth },
-        { icon: Database, name: 'Drizzle ORM', desc: t.home.techStack.drizzle },
-        { icon: Database, name: 'PostgreSQL', desc: t.home.techStack.postgres },
+        { icon: Box, name: 'Bun', desc: t.home.techStack.bun, url: 'https://bun.sh/' },
+        { icon: Server, name: 'Hono', desc: t.home.techStack.hono, url: 'https://hono.dev/' },
+        { icon: Lock, name: 'Better Auth', desc: t.home.techStack.betterAuth, url: 'https://www.better-auth.com/' },
+        { icon: Database, name: 'Drizzle ORM', desc: t.home.techStack.drizzle, url: 'https://orm.drizzle.team/' },
+        { icon: Database, name: 'PostgreSQL', desc: t.home.techStack.postgres, url: 'https://www.postgresql.org/' },
     ]
 
     // 前端技术栈
     const frontendTech = [
-        { icon: Package, name: 'Vite', desc: t.home.techStack.vite },
-        { icon: Layout, name: 'React 19', desc: t.home.techStack.react },
-        { icon: FileCode, name: 'React Router v7', desc: t.home.techStack.router },
-        { icon: Palette, name: 'Tailwind CSS v4', desc: t.home.techStack.tailwind },
-        { icon: Box, name: 'Shadcn/ui', desc: t.home.techStack.shadcn },
-        { icon: Sparkles, name: 'Lucide React', desc: t.home.techStack.lucide },
+        { icon: Package, name: 'Vite', desc: t.home.techStack.vite, url: 'https://vitejs.dev/' },
+        { icon: Layout, name: 'React 19', desc: t.home.techStack.react, url: 'https://react.dev/' },
+        { icon: FileCode, name: 'React Router v7', desc: t.home.techStack.router, url: 'https://reactrouter.com/' },
+        { icon: Palette, name: 'Tailwind CSS v4', desc: t.home.techStack.tailwind, url: 'https://tailwindcss.com/' },
+        { icon: Box, name: 'Shadcn/ui', desc: t.home.techStack.shadcn, url: 'https://ui.shadcn.com/' },
+        { icon: Sparkles, name: 'Lucide React', desc: t.home.techStack.lucide, url: 'https://lucide.dev/' },
     ]
 
     // 文档链接
@@ -330,11 +330,16 @@ export function HomePage() {
                         </h3>
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                             {backendTech.map((tech, index) => (
-                                <Card key={index} className="hover:shadow-md transition-shadow">
+                                <Card 
+                                    key={index} 
+                                    className="hover:shadow-lg hover:border-primary transition-all cursor-pointer group"
+                                    onClick={() => window.open(tech.url, '_blank')}
+                                >
                                     <CardContent className="p-4">
                                         <div className="flex flex-col items-center text-center gap-2">
-                                            <div className="p-2 bg-primary/10 rounded-lg">
+                                            <div className="p-2 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors relative">
                                                 <tech.icon className="h-6 w-6 text-primary" />
+                                                <ExternalLink className="h-3 w-3 absolute -top-1 -right-1 opacity-0 group-hover:opacity-100 transition-opacity text-primary" />
                                             </div>
                                             <div>
                                                 <p className="font-semibold text-sm">{tech.name}</p>
@@ -355,11 +360,16 @@ export function HomePage() {
                         </h3>
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                             {frontendTech.map((tech, index) => (
-                                <Card key={index} className="hover:shadow-md transition-shadow">
+                                <Card 
+                                    key={index} 
+                                    className="hover:shadow-lg hover:border-primary transition-all cursor-pointer group"
+                                    onClick={() => window.open(tech.url, '_blank')}
+                                >
                                     <CardContent className="p-4">
                                         <div className="flex flex-col items-center text-center gap-2">
-                                            <div className="p-2 bg-primary/10 rounded-lg">
+                                            <div className="p-2 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors relative">
                                                 <tech.icon className="h-6 w-6 text-primary" />
+                                                <ExternalLink className="h-3 w-3 absolute -top-1 -right-1 opacity-0 group-hover:opacity-100 transition-opacity text-primary" />
                                             </div>
                                             <div>
                                                 <p className="font-semibold text-sm">{tech.name}</p>
