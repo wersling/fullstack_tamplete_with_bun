@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useAuth } from '@/hooks/useAuth'
 import { useI18n } from '@/hooks/useI18n'
 import { localeNames, type Locale } from '@/lib/i18n'
-import { Server, Zap, Moon, Sun, LogOut, User, Languages } from 'lucide-react'
+import { Server, Zap, Moon, Sun, LogOut, User, Languages, Github } from 'lucide-react'
 // 使用 Hono RPC 客户端 - 完整类型安全
 import { api, type HealthResponse as ApiStatus } from '@/lib/api-client'
 
@@ -122,6 +122,17 @@ export function HomePage() {
                 {t.common.signIn}
               </Button>
             )}
+            
+            {/* GitHub 按钮 */}
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => window.open('https://github.com/wersling/fullstack_tamplete_with_bun', '_blank')}
+              className="rounded-full"
+              title="GitHub Repository"
+            >
+              <Github className="h-4 w-4" />
+            </Button>
             
             {/* 语言切换按钮 */}
             <div className="relative">
