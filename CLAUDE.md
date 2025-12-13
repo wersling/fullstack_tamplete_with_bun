@@ -12,11 +12,12 @@
 ## 🔧 核心技术栈规则
 
 ### 1. 包管理器和运行时
-- ✅ **必须使用 Bun**，禁止使用 Node.js、npm、pnpm、yarn
-- ✅ 所有命令应使用 `bun` 而非 `npm` 或 `node`
+- ✅ **包管理**: 必须使用 Bun，禁止使用 npm、pnpm、yarn
+- ✅ **后端运行时**: 必须使用 Bun，替代 Node.js
+- ✅ **前端构建**: 使用 Vite（通过 `bun run` 调用）
 - ✅ 安装依赖: `bun install` 或 `bun add [package]`
 - ✅ 运行脚本: `bun run [script]`
-- ✅ 执行文件: `bun run [file.ts]`
+- ✅ 执行后端文件: `bun run [file.ts]`
 
 ### 2. TypeScript 配置
 - ✅ 项目使用 TypeScript，所有新文件应为 `.ts` 或 `.tsx`
@@ -47,9 +48,15 @@
 ### 4. 前端开发规则
 
 #### 构建工具
-- ✅ 使用 **Vite** 作为构建工具（Bun 原生支持）
-- ✅ 开发服务器: `bun run dev`
-- ✅ 生产构建: `bun run build`
+- ✅ 使用 **Vite** 作为前端构建工具
+- ✅ 开发服务器: `bun run dev:frontend`（实际执行 `vite`）
+- ✅ 生产构建: `bun run build:frontend`（实际执行 `vite build`）
+
+**为什么使用 Vite 而非 Bun 原生 bundler？**
+1. **架构需求**: 前后端分离架构，前端需要独立部署能力
+2. **生态成熟**: React Fast Refresh、Tailwind v4 插件等开箱即用
+3. **开发体验**: 毫秒级 HMR、精确错误提示、完善的 Source Map
+4. **生产验证**: 经过数百万项目验证的稳定性和优化能力
 
 #### UI 组件
 - ✅ 使用 **Shadcn/ui** 组件库
@@ -251,8 +258,9 @@ bun run build:frontend
 ## ⚠️ 注意事项
 
 ### 禁止操作
-- ❌ 不要使用 npm/yarn/pnpm 命令
-- ❌ 不要使用 Node.js 特定 API (优先使用 Bun API)
+- ❌ 不要使用 npm/yarn/pnpm 命令（包管理统一用 Bun）
+- ❌ 不要在后端使用 Node.js 特定 API（优先使用 Bun API）
+- ❌ 不要尝试用 Bun 原生 bundler 替代 Vite（架构不匹配）
 - ❌ 不要在代码中硬编码敏感信息
 - ❌ 不要提交 `.env` 文件到 Git
 - ❌ 不要跳过数据库迁移直接修改数据库
@@ -302,7 +310,40 @@ bun remove [package]           # 移除依赖
 
 ---
 
-**最后更新**: 2025-12-10  
+## 💬 技术决策说明
+
+### 为什么保留 Vite？
+
+虽然 Bun 提供了原生的 bundler 和 HTML imports 功能，但本项目仍然使用 Vite 作为前端构建工具，原因如下：
+
+#### 1. 架构匹配度
+- **前后端分离**: 后端 API (Hono) 和前端 SPA (React) 完全解耦
+- **独立部署**: 前端可部署到 CDN/Vercel/Netlify，后端部署到支持 Bun 的平台
+- Bun 的 HTML imports 适合单体架构，不适合本项目
+
+#### 2. 生态成熟度
+- **React 生态**: Fast Refresh、React DevTools 集成
+- **插件支持**: Tailwind CSS v4 官方 Vite 插件
+- **类型安全**: 完善的 TypeScript 支持和类型提示
+
+#### 3. 开发体验
+- **HMR**: 毫秒级的热模块替换
+- **错误提示**: 精确的错误定位和堆栈跟踪
+- **Source Map**: 生产环境调试友好
+
+#### 4. 生产验证
+- Vite 已被数百万项目验证
+- 稳定的长期支持和社区维护
+- 成熟的优化策略（代码分割、Tree Shaking、懒加载）
+
+#### 5. 团队效率
+- 社区资源丰富，问题容易解决
+- 团队成员学习曲线平缓
+- 降低技术风险和维护成本
+
+---
+
+**最后更新**: 2025-12-13  
 **维护者**: AI Assistant
 
 > 💡 提示：当项目技术栈或规范发生变化时，请及时更新此文档

@@ -1,111 +1,157 @@
 ---
-description: Use Bun instead of Node.js, npm, pnpm, or vite.
+description: 本项目使用 Bun 作为主要运行时和包管理器
 globs: "*.ts, *.tsx, *.html, *.css, *.js, *.jsx, package.json"
 alwaysApply: false
 ---
 
-Default to using Bun instead of Node.js.
+# Bun 使用规范
 
-- Use `bun <file>` instead of `node <file>` or `ts-node <file>`
-- Use `bun test` instead of `jest` or `vitest`
-- Use `bun build <file.html|file.ts|file.css>` instead of `webpack` or `esbuild`
-- Use `bun install` instead of `npm install` or `yarn install` or `pnpm install`
-- Use `bun run <script>` instead of `npm run <script>` or `yarn run <script>` or `pnpm run <script>`
-- Use `bunx <package> <command>` instead of `npx <package> <command>`
-- Bun automatically loads .env, so don't use dotenv.
+本项目采用 **前后端分离架构**，Bun 主要用于运行时和包管理，前端构建使用 Vite。
 
-## APIs
+## 核心原则
 
-- `Bun.serve()` supports WebSockets, HTTPS, and routes. Don't use `express`.
-- `bun:sqlite` for SQLite. Don't use `better-sqlite3`.
-- `Bun.redis` for Redis. Don't use `ioredis`.
-- `Bun.sql` for Postgres. Don't use `pg` or `postgres.js`.
-- `WebSocket` is built-in. Don't use `ws`.
-- Prefer `Bun.file` over `node:fs`'s readFile/writeFile
-- Bun.$`ls` instead of execa.
+- ✅ **包管理**: 统一使用 Bun（替代 npm/yarn/pnpm）
+- ✅ **后端运行时**: 使用 Bun（替代 Node.js）
+- ✅ **测试**: 使用 Bun 内置测试（替代 Jest/Vitest）
+- ✅ **前端构建**: 使用 Vite（保留，理由见下文）
 
-## Testing
+## 包管理命令
 
-Use `bun test` to run tests.
+- 使用 `bun install` 替代 `npm install`、`yarn install` 或 `pnpm install`
+- 使用 `bun add [包名]` 替代 `npm install [包名]`
+- 使用 `bun remove [包名]` 替代 `npm uninstall [包名]`
+- 使用 `bun run <脚本>` 替代 `npm run <脚本>` 或 `yarn run <脚本>`
+- 使用 `bunx <包名>` 替代 `npx <包名>`
 
-```ts#index.test.ts
-import { test, expect } from "bun:test";
+## 后端开发
 
-test("hello world", () => {
-  expect(1).toBe(1);
-});
+### 运行时
+
+- 使用 `bun <文件.ts>` 替代 `node <文件>` 或 `ts-node <文件>`
+- 使用 `bun --hot <文件.ts>` 开启开发模式的自动重载
+- Bun 原生支持 TypeScript，无需额外配置
+
+### 后端接口
+
+- `Bun.serve()` - HTTP 服务器（支持 WebSocket、HTTPS、路由）
+- `bun:sqlite` - SQLite 数据库（当前项目未使用）
+- `Bun.file` - 文件操作（优先于 `node:fs`）
+- `Bun.$` - Shell 命令（替代 execa）
+- Bun 自动加载 `.env` 文件，无需 dotenv
+
+**本项目使用 Hono 框架：**
+
+```typescript
+import { Hono } from 'hono'
+
+const app = new Hono()
+
+export default {
+  port: 3001,
+  fetch: app.fetch,
+}
 ```
 
-## Frontend
+### 测试
 
-Use HTML imports with `Bun.serve()`. Don't use `vite`. HTML imports fully support React, CSS, Tailwind.
+使用 `bun test` 替代 Jest 或 Vitest：
 
-Server:
+```typescript
+import { test, expect, describe } from "bun:test"
 
-```ts#index.ts
-import index from "./index.html"
-
-Bun.serve({
-  routes: {
-    "/": index,
-    "/api/users/:id": {
-      GET: (req) => {
-        return new Response(JSON.stringify({ id: req.params.id }));
-      },
-    },
-  },
-  // optional websocket support
-  websocket: {
-    open: (ws) => {
-      ws.send("Hello, world!");
-    },
-    message: (ws, message) => {
-      ws.send(message);
-    },
-    close: (ws) => {
-      // handle close
-    }
-  },
-  development: {
-    hmr: true,
-    console: true,
-  }
+describe("用户接口", () => {
+  test("应该创建用户", () => {
+    expect(true).toBe(true)
+  })
 })
 ```
 
-HTML files can import .tsx, .jsx or .js files directly and Bun's bundler will transpile & bundle automatically. `<link>` tags can point to stylesheets and Bun's CSS bundler will bundle.
+## 前端开发
 
-```html#index.html
-<html>
-  <body>
-    <h1>Hello, world!</h1>
-    <script type="module" src="./frontend.tsx"></script>
-  </body>
-</html>
+### 为什么保留 Vite？
+
+本项目采用**前后端分离架构**，前端使用 Vite 而非 Bun 原生打包器，原因：
+
+1. **架构需求**: 前端需要独立部署到 CDN/静态服务器（Vercel/Netlify）
+2. **生态成熟**: Vite 提供完整的 React 生态支持（快速刷新、插件系统）
+3. **开发体验**: 热模块替换、代码分割、懒加载等优化开箱即用
+4. **生产验证**: 数百万项目验证的稳定性
+
+### 前端构建流程
+
+```bash
+# 开发（使用 Vite 开发服务器）
+bun run dev:frontend  # 实际执行 vite
+
+# 构建（使用 Vite 打包器）
+bun run build:frontend  # 实际执行 vite build
+
+# 添加 UI 组件
+bunx --bun shadcn@latest add button
 ```
 
-With the following `frontend.tsx`:
+### 前端配置示例
 
-```tsx#frontend.tsx
-import React from "react";
-import { createRoot } from "react-dom/client";
+```typescript
+// vite.config.ts
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
 
-// import .css files directly and it works
-import './index.css';
-
-const root = createRoot(document.body);
-
-export default function Frontend() {
-  return <h1>Hello, world!</h1>;
-}
-
-root.render(<Frontend />);
+export default defineConfig({
+  plugins: [react(), tailwindcss()],
+  server: {
+    port: 5173,
+    proxy: {
+      '/api': 'http://localhost:3001',
+    },
+  },
+})
 ```
 
-Then, run index.ts
+## 开发工作流
 
-```sh
-bun --hot ./index.ts
+```bash
+# 安装依赖
+bun install
+
+# 同时启动前后端
+bun run dev
+
+# 单独启动
+bun run dev:backend   # Bun 运行后端
+bun run dev:frontend  # Vite 运行前端
+
+# 构建
+bun run build         # 构建前后端
+bun run build:backend # Bun 构建后端
+bun run build:frontend # Vite 构建前端
+
+# 测试
+bun test
 ```
 
-For more information, read the Bun API docs in `node_modules/bun-types/docs/**.mdx`.
+## 注意事项
+
+### ✅ 推荐做法
+
+- 在后端代码中优先使用 Bun 原生接口（`Bun.file`、`Bun.$` 等）
+- 使用 `bun:test` 而非安装额外的测试库
+- 利用 Bun 的快速启动和热重载特性
+
+### ❌ 避免做法
+
+- ❌ 不要使用 `npm`/`yarn`/`pnpm` 命令（统一用 `bun`）
+- ❌ 不要在后端使用 Node.js 特定接口（如有需要，优先寻找 Bun 替代）
+- ❌ 不要在前端构建流程中强行替换 Vite（架构不匹配）
+
+## 参考资源
+
+- [Bun 官方文档](https://bun.sh/docs)
+- [Hono 框架文档](https://hono.dev/)
+- [Vite 官方文档](https://vitejs.dev/)
+
+---
+
+**更新日期**: 2025-12-13  
+**架构说明**: 前后端分离架构，Bun 用于后端和包管理，Vite 用于前端构建
