@@ -4,7 +4,7 @@ import { db, schema } from "../db"
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
-    provider: "sqlite",
+    provider: "pg", // PostgreSQL 数据库
     schema: {
       user: schema.user,
       session: schema.session,

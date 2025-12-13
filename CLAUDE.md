@@ -66,8 +66,47 @@
 
 #### 状态管理和路由
 - ✅ 使用 **React Router v7** 进行路由管理
+- ✅ 使用 v7 新特性：`loader`（数据预加载）和 `action`（表单处理）
 - ✅ 认证状态通过 `useAuth` Hook 管理
 - ✅ API 请求通过 `lib/api-client.ts` 统一处理
+
+**React Router v7 新特性说明：**
+1. **数据加载器 (Loader)**: 页面渲染前预取数据
+   ```typescript
+   // 在页面组件中导出 loader 函数
+   export async function homeLoader() {
+       const data = await fetchData()
+       return { data }
+   }
+   
+   // 在组件中使用
+   const loaderData = useLoaderData()
+   ```
+
+2. **表单操作 (Action)**: 服务端式的表单处理
+   ```typescript
+   // 导出 action 函数处理表单提交
+   export async function loginAction({ request }: { request: Request }) {
+       const formData = await request.formData()
+       // 处理登录逻辑
+       return redirect('/')
+   }
+   
+   // 使用 Form 组件
+   <Form method="post">...</Form>
+   ```
+
+3. **路由配置**: 使用 `createBrowserRouter` 集中管理
+   ```typescript
+   // router.tsx
+   export const router = createBrowserRouter([
+       { path: '/', element: <HomePage />, loader: homeLoader },
+       { path: '/login', element: <LoginPage />, action: loginAction },
+   ])
+   
+   // App.tsx
+   <RouterProvider router={router} />
+   ```
 
 #### 国际化
 - ✅ 使用 `useI18n` Hook 进行多语言支持

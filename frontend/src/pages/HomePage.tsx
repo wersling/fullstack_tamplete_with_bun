@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLoaderData } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useAuth } from '@/hooks/useAuth'
@@ -8,18 +8,35 @@ import { localeNames, type Locale } from '@/lib/i18n'
 import { 
     Server, Zap, Moon, Sun, LogOut, User, Languages, Github, 
     CheckCircle2, Rocket, Book, Package, Code, Layout, Database,
-    Box, FileCode, Palette, Lock, Globe, GitBranch, ArrowRight,
+    Box, FileCode, Palette, Lock, Globe, GitBranch,
     ExternalLink, Sparkles
 } from 'lucide-react'
 import { api, type HealthResponse as ApiStatus } from '@/lib/api-client'
+
+// React Router v7 Loader - 页面加载时预取数据
+export async function homeLoader() {
+    try {
+        const healthRes = await api.health.$get()
+        if (healthRes.ok) {
+            const healthData = await healthRes.json()
+            return { apiStatus: healthData, error: null }
+        }
+        return { apiStatus: null, error: 'Failed to fetch health status' }
+    } catch (error) {
+        console.error('Failed to fetch data:', error)
+        return { apiStatus: null, error: 'Network error' }
+    }
+}
+
+type LoaderData = Awaited<ReturnType<typeof homeLoader>>
 
 export function HomePage() {
     const navigate = useNavigate()
     const { user, isAuthenticated, isLoading: authLoading, logout } = useAuth()
     const { locale, setLocale, t } = useI18n()
+    const loaderData = useLoaderData() as LoaderData // 从 loader 获取预加载的数据
     
-    const [apiStatus, setApiStatus] = useState<ApiStatus | null>(null)
-    const [loading, setLoading] = useState(true)
+    const [apiStatus, setApiStatus] = useState<ApiStatus | null>(loaderData.apiStatus)
     const [darkMode, setDarkMode] = useState(false)
     const [showLangMenu, setShowLangMenu] = useState(false)
 
@@ -31,13 +48,8 @@ export function HomePage() {
         }
     }, [darkMode])
 
-    useEffect(() => {
-        fetchData()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isAuthenticated])
-
+    // 手动刷新数据的函数
     const fetchData = async () => {
-        setLoading(true)
         try {
             const healthRes = await api.health.$get()
             if (healthRes.ok) {
@@ -46,8 +58,6 @@ export function HomePage() {
             }
         } catch (error) {
             console.error('Failed to fetch data:', error)
-        } finally {
-            setLoading(false)
         }
     }
 
@@ -265,12 +275,7 @@ export function HomePage() {
                         </div>
                     </CardHeader>
                     <CardContent>
-                        {loading ? (
-                            <div className="flex items-center gap-2 text-muted-foreground">
-                                <div className="h-2 w-2 rounded-full bg-muted-foreground animate-pulse" />
-                                {t.home.apiStatus.connecting}
-                            </div>
-                        ) : apiStatus ? (
+                        {apiStatus ? (
                             <div className="flex items-center gap-4">
                                 <div className="flex items-center gap-2">
                                     <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />

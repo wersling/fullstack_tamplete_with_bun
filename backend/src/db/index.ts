@@ -4,7 +4,8 @@ import * as schema from './schema'
 import { logger } from '../lib/logger'
 
 // 数据库连接字符串
-const connectionString = process.env.DATABASE_URL || 'postgresql://fullstack_user:fullstack_password@localhost:5432/fullstack_db'
+// 使用现有的 PostgreSQL 容器（用户：postgres，端口：5432）
+const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/fullstack_db'
 
 // 创建 PostgreSQL 连接
 const client = postgres(connectionString, {

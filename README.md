@@ -30,7 +30,7 @@
 ### 前端
 - **Build Tool**: [Vite](https://vitejs.dev/)
 - **Library**: [React](https://react.dev/) 19
-- **Routing**: [React Router](https://reactrouter.com/) v7
+- **Routing**: [React Router](https://reactrouter.com/) v7（使用 loader/action 数据模式）
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/) v4
 - **UI Components**: [Shadcn/ui](https://ui.shadcn.com/)
 - **Icons**: [Lucide React](https://lucide.dev/)

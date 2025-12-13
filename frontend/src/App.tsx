@@ -1,22 +1,13 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { HomePage } from '@/pages/HomePage'
-import { LoginPage } from '@/pages/LoginPage'
-import { RegisterPage } from '@/pages/RegisterPage'
+import { RouterProvider } from 'react-router-dom'
+import { router } from '@/router'
 import { I18nProvider } from '@/hooks/useI18n'
 
 function App() {
-  return (
-    <I18nProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </BrowserRouter>
-    </I18nProvider>
-  )
+    return (
+        <I18nProvider>
+            <RouterProvider router={router} />
+        </I18nProvider>
+    )
 }
 
 export default App

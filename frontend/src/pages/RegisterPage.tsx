@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { Link, redirect, useActionData, Form } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -8,66 +7,62 @@ import { Separator } from '@/components/ui/separator'
 import { useAuth } from '@/hooks/useAuth'
 import { useI18n } from '@/hooks/useI18n'
 import { Loader2, Github, UserPlus } from 'lucide-react'
+import { authClient } from '@/lib/auth-client'
+
+// React Router v7 Action - 处理注册表单提交
+export async function registerAction({ request }: { request: Request }) {
+    const formData = await request.formData()
+    const name = formData.get('name') as string
+    const email = formData.get('email') as string
+    const password = formData.get('password') as string
+    const confirmPassword = formData.get('confirmPassword') as string
+
+    // 表单验证
+    if (password !== confirmPassword) {
+        return { error: '两次输入的密码不一致' }
+    }
+
+    if (password.length < 8) {
+        return { error: '密码至少需要 8 个字符' }
+    }
+
+    try {
+        const result = await authClient.signUp.email({
+            email,
+            password,
+            name,
+        })
+
+        if (result.error) {
+            return { error: result.error.message || '注册失败' }
+        }
+
+        return redirect('/') // 注册成功，重定向到首页
+    } catch {
+        return { error: '网络错误，请稍后重试' }
+    }
+}
 
 export function RegisterPage() {
-  const navigate = useNavigate()
-  const { registerWithEmail, loginWithGoogle, loginWithGithub, isLoading } = useAuth()
-  const { t } = useI18n()
-  
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+    const { loginWithGoogle, loginWithGithub, isLoading } = useAuth()
+    const { t } = useI18n()
+    const actionData = useActionData() as { error?: string } | undefined // 获取 action 返回的数据
 
-  const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError('')
-    
-    if (password !== confirmPassword) {
-      setError(t.register.errors.passwordMismatch)
-      return
+    const handleGoogleLogin = async () => {
+        try {
+            await loginWithGoogle()
+        } catch (error) {
+            console.error('Google login failed:', error)
+        }
     }
-    
-    if (password.length < 8) {
-      setError(t.register.errors.passwordTooShort)
-      return
-    }
-    
-    setLoading(true)
-    
-    try {
-      const result = await registerWithEmail(email, password, name)
-      if (result.error) {
-        setError(result.error.message || t.errors.registrationFailed)
-      } else {
-        navigate('/')
-      }
-    } catch {
-      setError(t.errors.unexpected)
-    } finally {
-      setLoading(false)
-    }
-  }
 
-  const handleGoogleLogin = async () => {
-    setError('')
-    try {
-      await loginWithGoogle()
-    } catch {
-      setError(t.errors.googleLoginFailed)
+    const handleGithubLogin = async () => {
+        try {
+            await loginWithGithub()
+        } catch (error) {
+            console.error('GitHub login failed:', error)
+        }
     }
-  }
-
-  const handleGithubLogin = async () => {
-    setError('')
-    try {
-      await loginWithGithub()
-    } catch {
-      setError(t.errors.githubLoginFailed)
-    }
-  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-muted/30 p-4">
@@ -95,7 +90,7 @@ export function RegisterPage() {
             <Button
               variant="outline"
               onClick={handleGoogleLogin}
-              disabled={isLoading || loading}
+              disabled={isLoading}
               className="h-11 gap-2 hover:bg-muted/80"
             >
               <svg className="h-5 w-5" viewBox="0 0 24 24">
@@ -122,7 +117,7 @@ export function RegisterPage() {
             <Button
               variant="outline"
               onClick={handleGithubLogin}
-              disabled={isLoading || loading}
+              disabled={isLoading}
               className="h-11 gap-2 hover:bg-muted/80"
             >
               <Github className="h-5 w-5" />
@@ -137,11 +132,11 @@ export function RegisterPage() {
             </span>
           </div>
 
-          {/* 注册表单 */}
-          <form onSubmit={handleRegister} className="space-y-4">
-            {error && (
+          {/* 注册表单 - 使用 React Router Form */}
+          <Form method="post" className="space-y-4">
+            {actionData?.error && (
               <div className="p-3 text-sm text-destructive bg-destructive/10 rounded-lg border border-destructive/20">
-                {error}
+                {actionData.error}
               </div>
             )}
             
@@ -149,10 +144,9 @@ export function RegisterPage() {
               <Label htmlFor="name">{t.register.fullNameLabel}</Label>
               <Input
                 id="name"
+                name="name"
                 type="text"
                 placeholder={t.register.fullNamePlaceholder}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
                 required
                 className="h-11"
               />
@@ -162,10 +156,9 @@ export function RegisterPage() {
               <Label htmlFor="email">{t.register.emailLabel}</Label>
               <Input
                 id="email"
+                name="email"
                 type="email"
                 placeholder={t.register.emailPlaceholder}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
                 required
                 className="h-11"
               />
@@ -175,11 +168,11 @@ export function RegisterPage() {
               <Label htmlFor="password">{t.register.passwordLabel}</Label>
               <Input
                 id="password"
+                name="password"
                 type="password"
                 placeholder={t.register.passwordPlaceholder}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
                 required
+                minLength={8}
                 className="h-11"
               />
               <p className="text-xs text-muted-foreground">
@@ -191,11 +184,11 @@ export function RegisterPage() {
               <Label htmlFor="confirmPassword">{t.register.confirmPasswordLabel}</Label>
               <Input
                 id="confirmPassword"
+                name="confirmPassword"
                 type="password"
                 placeholder={t.register.confirmPasswordPlaceholder}
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
                 required
+                minLength={8}
                 className="h-11"
               />
             </div>
@@ -203,9 +196,9 @@ export function RegisterPage() {
             <Button 
               type="submit" 
               className="w-full h-11" 
-              disabled={loading || isLoading}
+              disabled={isLoading}
             >
-              {loading ? (
+              {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   {t.register.creatingAccount}
@@ -214,7 +207,7 @@ export function RegisterPage() {
                 t.register.createAccount
               )}
             </Button>
-          </form>
+          </Form>
 
           <p className="text-center text-sm text-muted-foreground">
             {t.register.hasAccount}{' '}
