@@ -327,63 +327,59 @@ export function HomePage() {
                 <section className="mb-16">
                     <h2 className="text-3xl font-bold mb-8 text-center">{t.home.techStack.title}</h2>
                     
-                    {/* 后端技术栈 */}
-                    <div className="mb-8">
-                        <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                            <Server className="h-5 w-5 text-primary" />
-                            {t.home.techStack.backend}
-                        </h3>
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                            {backendTech.map((tech, index) => (
-                                <Card 
-                                    key={index} 
-                                    className="hover:shadow-lg hover:border-primary transition-all cursor-pointer group"
-                                    onClick={() => window.open(tech.url, '_blank')}
-                                >
-                                    <CardContent className="p-4">
-                                        <div className="flex flex-col items-center text-center gap-2">
-                                            <div className="p-2 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors relative">
-                                                <tech.icon className="h-6 w-6 text-primary" />
-                                                <ExternalLink className="h-3 w-3 absolute -top-1 -right-1 opacity-0 group-hover:opacity-100 transition-opacity text-primary" />
-                                            </div>
-                                            <div>
-                                                <p className="font-semibold text-sm">{tech.name}</p>
-                                                <p className="text-xs text-muted-foreground mt-1">{tech.desc}</p>
-                                            </div>
+                    <div className="max-w-3xl mx-auto space-y-8">
+                        {/* 后端技术栈 */}
+                        <div>
+                            <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                                <Server className="h-5 w-5 text-primary" />
+                                {t.home.techStack.backend}
+                            </h3>
+                            <ul className="space-y-2 text-muted-foreground">
+                                {backendTech.map((tech, index) => (
+                                    <li key={index} className="flex items-start gap-3 group">
+                                        <span className="text-primary mt-1">•</span>
+                                        <div>
+                                            <a 
+                                                href={tech.url} 
+                                                target="_blank" 
+                                                rel="noopener noreferrer"
+                                                className="font-medium text-foreground hover:text-primary transition-colors inline-flex items-center gap-1"
+                                            >
+                                                {tech.name}
+                                                <ExternalLink className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                            </a>
+                                            <span className="text-sm"> - {tech.desc}</span>
                                         </div>
-                                    </CardContent>
-                                </Card>
-                            ))}
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
-                    </div>
 
-                    {/* 前端技术栈 */}
-                    <div>
-                        <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                            <Layout className="h-5 w-5 text-primary" />
-                            {t.home.techStack.frontend}
-                        </h3>
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                            {frontendTech.map((tech, index) => (
-                                <Card 
-                                    key={index} 
-                                    className="hover:shadow-lg hover:border-primary transition-all cursor-pointer group"
-                                    onClick={() => window.open(tech.url, '_blank')}
-                                >
-                                    <CardContent className="p-4">
-                                        <div className="flex flex-col items-center text-center gap-2">
-                                            <div className="p-2 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors relative">
-                                                <tech.icon className="h-6 w-6 text-primary" />
-                                                <ExternalLink className="h-3 w-3 absolute -top-1 -right-1 opacity-0 group-hover:opacity-100 transition-opacity text-primary" />
-                                            </div>
-                                            <div>
-                                                <p className="font-semibold text-sm">{tech.name}</p>
-                                                <p className="text-xs text-muted-foreground mt-1">{tech.desc}</p>
-                                            </div>
+                        {/* 前端技术栈 */}
+                        <div>
+                            <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                                <Layout className="h-5 w-5 text-primary" />
+                                {t.home.techStack.frontend}
+                            </h3>
+                            <ul className="space-y-2 text-muted-foreground">
+                                {frontendTech.map((tech, index) => (
+                                    <li key={index} className="flex items-start gap-3 group">
+                                        <span className="text-primary mt-1">•</span>
+                                        <div>
+                                            <a 
+                                                href={tech.url} 
+                                                target="_blank" 
+                                                rel="noopener noreferrer"
+                                                className="font-medium text-foreground hover:text-primary transition-colors inline-flex items-center gap-1"
+                                            >
+                                                {tech.name}
+                                                <ExternalLink className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                            </a>
+                                            <span className="text-sm"> - {tech.desc}</span>
                                         </div>
-                                    </CardContent>
-                                </Card>
-                            ))}
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
                     </div>
                 </section>
