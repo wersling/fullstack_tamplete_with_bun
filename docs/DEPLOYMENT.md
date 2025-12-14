@@ -204,37 +204,35 @@ docker run -p 3001:3001 \
 
 ### 生产环境数据库
 
-建议使用托管数据库服务：
-- **PostgreSQL**: Railway / Supabase / Neon
-- **MySQL**: PlanetScale
-- **SQLite**: Turso (适合 SQLite 的边缘部署)
+项目默认使用 PostgreSQL，建议使用托管数据库服务：
+- **PostgreSQL**: Railway / Supabase / Neon / Render
+- **其他选择**: 
+  - **MySQL**: PlanetScale（需要修改 schema 和配置）
+  - **SQLite**: Turso（适合边缘部署，需要修改 schema 和配置）
 
-### 切换到 PostgreSQL
+### 数据库配置
 
-1. 修改 `backend/drizzle.config.ts`：
+项目已配置 PostgreSQL，通过 `DATABASE_URL` 环境变量连接：
 
-```typescript
-import { defineConfig } from 'drizzle-kit'
+```bash
+# 格式
+DATABASE_URL=postgresql://username:password@host:port/database
 
-export default defineConfig({
-  dialect: 'postgresql',
-  schema: './src/db/schema.ts',
-  out: './drizzle',
-  dbCredentials: {
-    url: process.env.DATABASE_URL!,
-  },
-})
+# 示例（Railway）
+DATABASE_URL=postgresql://postgres:xxxxx@containers-us-west-123.railway.app:5432/railway
+
+# 示例（Supabase）
+DATABASE_URL=postgresql://postgres:xxxxx@db.xxxxx.supabase.co:5432/postgres
 ```
 
-2. 更新依赖：
+### 执行数据库迁移
+
+部署前需要执行迁移：
 
 ```bash
 cd backend
-bun add postgres
-bun remove bun:sqlite
+DATABASE_URL=your_production_db_url bun run db:migrate
 ```
-
-3. 修改 `backend/src/db/index.ts` 使用 PostgreSQL 连接
 
 ---
 

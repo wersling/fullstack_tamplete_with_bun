@@ -86,9 +86,17 @@ A: 建议使用 Bun 1.3.0 或更高版本。
 ### Q: 如何生成 BETTER_AUTH_SECRET？
 A: 运行命令 `openssl rand -base64 32`
 
-### Q: 数据库在哪里？
-A: 默认使用 SQLite，数据库文件位于 `backend/sqlite.db`
+### Q: 使用什么数据库？
+A: 项目使用 PostgreSQL 作为数据库。本地开发时需要启动 PostgreSQL 服务，或使用 Docker 部署（推荐）。
+
+### Q: 如何连接数据库？
+A: 
+- **本地开发**: 确保 PostgreSQL 服务运行在 localhost:5432，默认用户 `postgres/postgres`
+- **Docker 部署**: 使用 `docker/start.sh` 自动启动 PostgreSQL 容器
+- **自定义配置**: 设置 `DATABASE_URL` 环境变量，例如 `postgresql://user:pass@host:port/dbname`
 
 ### Q: 如何重置数据库？
-A: 删除 `backend/sqlite.db` 文件，然后重新运行 `bun run db:migrate`
+A: 
+- **Docker 环境**: `docker compose -f docker/docker-compose.yml down -v` 删除数据卷后重启
+- **本地 PostgreSQL**: 连接数据库后执行 `DROP DATABASE fullstack_db; CREATE DATABASE fullstack_db;` 然后重新运行迁移
 

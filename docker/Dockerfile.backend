@@ -42,10 +42,11 @@ RUN addgroup --system --gid 1001 nodejs && \
 # 复制生产依赖
 COPY --from=deps --chown=bunuser:nodejs /app/node_modules ./node_modules
 
-# 复制构建产物
+# 复制构建产物和迁移脚本
 COPY --from=builder --chown=bunuser:nodejs /app/dist ./dist
 COPY --from=builder --chown=bunuser:nodejs /app/drizzle ./drizzle
-COPY --from=builder --chown=bunuser:nodejs /app/drizzle.config.ts ./
+COPY --from=builder --chown=bunuser:nodejs /app/src/migrate.ts ./src/migrate.ts
+COPY --from=builder --chown=bunuser:nodejs /app/start.sh ./start.sh
 
 # 切换到非 root 用户
 USER bunuser
@@ -57,6 +58,6 @@ EXPOSE 3001
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD bun run -e "fetch('http://localhost:3001/api/health').then(r => r.ok || process.exit(1))"
 
-# 启动应用
-CMD ["bun", "run", "dist/index.js"]
+# 启动应用（先迁移，后启动）
+CMD ["sh", "./start.sh"]
 

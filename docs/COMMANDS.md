@@ -223,8 +223,9 @@ rm -rf backend/node_modules backend/dist
 rm -rf frontend/node_modules frontend/dist
 rm -rf node_modules
 
-# 清理数据库（谨慎使用！）
-rm backend/sqlite.db
+# 清理数据库（谨慎使用！仅限本地开发）
+# 注意：项目使用 PostgreSQL，数据库在 Docker 容器中
+# 如需重置，请删除 Docker volume: docker volume rm fullstack_tamplete_with_bun_postgres_data
 
 # 重新安装依赖
 bun run install:all
@@ -240,10 +241,15 @@ bun run install:all
 # 清理并重新开始
 rm -rf backend/node_modules frontend/node_modules node_modules
 rm -rf backend/dist frontend/dist
-rm backend/sqlite.db
 bun install
-cd backend && bun run db:migrate
+
+# 重新生成迁移文件
+cd backend
+bun run db:generate
+bun run db:migrate
 cd ..
+
+# 启动开发服务器
 bun run dev
 ```
 

@@ -44,6 +44,7 @@
 - 🔒 **[类型安全](./docs/TYPE_SAFETY.md)** - 端到端类型安全指南
 - 📡 **[API 参考](./docs/API_REFERENCE.md)** - 完整的 API 文档
 - ⚠️ **[错误处理](./docs/ERROR_HANDLING.md)** - 统一错误处理机制
+- 🗄️ **[自动迁移](./docs/AUTO_MIGRATION.md)** - 数据库迁移自动化
 - 🐳 **[Docker 部署](./docker/README.md)** - Docker 容器化部署
 - 🚢 **[部署指南](./docs/DEPLOYMENT.md)** - 其他部署方式
 

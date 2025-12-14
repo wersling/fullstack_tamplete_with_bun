@@ -6,15 +6,15 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_DB: fullstack_db
-      POSTGRES_USER: fullstack_user
-      POSTGRES_PASSWORD: fullstack_password
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     ports:
-      - "5433:5432"  # 使用 5433 端口避免冲突
+      - "5432:5432"  # 使用标准端口
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U fullstack_user -d fullstack_db"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d fullstack_db"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -33,7 +33,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3001
-      DATABASE_URL: postgresql://fullstack_user:fullstack_password@postgres:5432/fullstack_db
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/fullstack_db
       BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
